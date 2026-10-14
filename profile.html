@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Cascade Community</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .profile-hero {
+            background: #e8f5e9;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .profile-hero h1 {
+            color: #176b3a;
+        }
+
+        .profile-container {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .profile-card h2 {
+            color: #176b3a;
+            margin-top: 0;
+        }
+
+        .profile-form label {
+            display: block;
+            margin: 16px 0 7px;
+            font-weight: 600;
+        }
+
+        .profile-form input,
+        .profile-form select,
+        .profile-form textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ccd8ce;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .profile-form button {
+            margin-top: 22px;
+            padding: 12px 22px;
+            background: #198447;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .profile-form button:hover {
+            background: #126634;
+        }
+
+        .profile-message {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            background: #e8f5e9;
+            color: #176b3a;
+            border-radius: 7px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+        }
+
+        .profile-stat {
+            background: #f1f8f2;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .profile-stat h3 {
+            color: #198447;
+            font-size: 28px;
+            margin: 8px 0;
+        }
+
+        .profile-note {
+            color: #65756b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Cascade Community</div>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="share-resource.html">Share Resource</a>
+            <a href="request-resource.html">Request Resource</a>
+            <a href="cascade-allocation.html">Cascade Allocation</a>
+            <a href="impact.html">Community Impact</a>
+        </div>
+    </nav>
+
+    <section class="profile-hero">
+        <h1>My Community Profile 👤</h1>
+        <p>Manage your profile information and review your activity.</p>
+    </section>
+
+    <main class="profile-container">
+
+        <section class="profile-card">
+            <h2>Personal Information</h2>
+
+            <form id="profileForm" class="profile-form">
+
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" maxlength="100"
+                       placeholder="Enter your name" required>
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" maxlength="150"
+                       placeholder="Enter your email" required>
+
+                <label for="location">Community / Location</label>
+                <input type="text" id="location" maxlength="150"
+                       placeholder="Enter your area or community" required>
+
+                <label for="role">How would you like to participate?</label>
+                <select id="role" required>
+                    <option value="">Select participation type</option>
+                    <option value="Resource Provider">Resource Provider</option>
+                    <option value="Resource Seeker">Resource Seeker</option>
+                    <option value="Both">Both Provider and Seeker</option>
+                </select>
+
+                <label for="bio">About Me</label>
+                <textarea id="bio" rows="4" maxlength="500"
+                          placeholder="Tell the community a little about yourself"></textarea>
+
+                <button type="submit">Save Profile</button>
+
+                <div id="profileMessage" class="profile-message"
+                     role="status"></div>
+
+            </form>
+        </section>
+
+        <section class="profile-card">
+            <h2>My Sharing Activity</h2>
+
+            <div class="profile-stats">
+
+                <div class="profile-stat">
+                    <p>Resources Offered</p>
+                    <h3 id="sharedCount">0</h3>
+                </div>
+
+                <div class="profile-stat">
+                    <p>Requests Submitted</p>
+                    <h3 id="requestedCount">0</h3>
+                </div>
+
+                <div class="profile-stat">
+                    <p>Latest Allocated Units</p>
+                    <h3 id="allocatedCount">—</h3>
+                </div>
+
+            </div>
+
+            <p class="profile-note">
+                Activity is calculated from information saved in this
+                browser. It is not yet linked to verified user accounts.
+            </p>
+        </section>
+
+        <section class="profile-card">
+            <h2>Community Trust and Safety</h2>
+
+            <p>
+                🤝 Share accurate information about available resources.
+            </p>
+
+            <p>
+                🔒 Do not publish passwords, identity documents, or
+                sensitive personal information in public descriptions.
+            </p>
+
+            <p>
+                📍 Arrange resource handovers carefully and choose a
+                safe, appropriate meeting place.
+            </p>
+
+            <p class="profile-note">
+                Identity verification, secure messaging, ratings, and
+                reporting are not implemented by this profile page.
+            </p>
+        </section>
+
+    </main>
+
+    <script>
+        const profileForm = document.getElementById("profileForm");
+        const profileMessage = document.getElementById("profileMessage");
+
+        function readArray(key) {
+            try {
+                const data = JSON.parse(localStorage.getItem(key));
+                return Array.isArray(data) ? data : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function loadProfile() {
+            try {
+                const profile = JSON.parse(
+                    localStorage.getItem("cascadeUserProfile")
+                );
+
+                if (profile && typeof profile === "object") {
+                    document.getElementById("fullName").value =
+                        profile.fullName || "";
+
+                    document.getElementById("email").value =
+                        profile.email || "";
+
+                    document.getElementById("location").value =
+                        profile.location || "";
+
+                    document.getElementById("role").value =
+                        profile.role || "";
+
+                    document.getElementById("bio").value =
+                        profile.bio || "";
+                }
+            } catch (error) {
+                // Continue with an empty profile.
+            }
+
+            updateActivity();
+        }
+
+        function updateActivity() {
+            const resources = readArray("cascadeResources");
+            const requests = readArray("cascadeRequests");
+
+            const resourceUnits = resources.reduce(function(total, item) {
+                const quantity = Number(item.quantity);
+                return total + (quantity > 0 ? quantity : 0);
+            }, 0);
+
+            const requestUnits = requests.reduce(function(total, item) {
+                const quantity = Number(item.quantity);
+                return total + (quantity > 0 ? quantity : 0);
+            }, 0);
+
+            document.getElementById("sharedCount").textContent =
+                resourceUnits;
+
+            document.getElementById("requestedCount").textContent =
+                requestUnits;
+
+            try {
+                const report = JSON.parse(
+                    localStorage.getItem("cascadeLatestReport")
+                );
+
+                if (report && report.allocatedUnits !== undefined) {
+                    document.getElementById("allocatedCount").textContent =
+                        Number(report.allocatedUnits) || 0;
+                }
+            } catch (error) {
+                // Keep the default value if no report exists.
+            }
+        }
+
+        profileForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const profile = {
+                fullName: document.getElementById("fullName").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                location: document.getElementById("location").value.trim(),
+                role: document.getElementById("role").value,
+                bio: document.getElementById("bio").value.trim()
+            };
+
+            try {
+                localStorage.setItem(
+                    "cascadeUserProfile",
+                    JSON.stringify(profile)
+                );
+
+                profileMessage.textContent =
+                    "Profile saved successfully in this browser.";
+
+                profileMessage.style.display = "block";
+            } catch (error) {
+                profileMessage.textContent =
+                    "Unable to save the profile. Check your browser storage.";
+
+                profileMessage.style.display = "block";
+            }
+        });
+
+        loadProfile();
+    </script>
+
+</body>
+</html>

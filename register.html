@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Cascade Community</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background: #f1f8f2;
+        }
+
+        .auth-container {
+            max-width: 440px;
+            margin: 55px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .auth-container h1 {
+            color: #176b3a;
+            text-align: center;
+        }
+
+        .auth-container p {
+            text-align: center;
+            color: #65756b;
+        }
+
+        .auth-form label {
+            display: block;
+            margin: 17px 0 7px;
+            font-weight: 600;
+        }
+
+        .auth-form input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ccd8ce;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .auth-form button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #198447;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .auth-form button:hover {
+            background: #126634;
+        }
+
+        .auth-message {
+            display: none;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 7px;
+            background: #e8f5e9;
+            color: #176b3a;
+            overflow-wrap: anywhere;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-footer a {
+            color: #198447;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #198447;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <h1>Create Account 🌱</h1>
+        <p>Join your community and share useful resources.</p>
+
+        <form id="registerForm" class="auth-form">
+
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName"
+                   maxlength="100" required
+                   placeholder="Enter your full name">
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email"
+                   maxlength="150" required
+                   placeholder="Enter your email">
+
+            <label for="password">Password</label>
+            <input type="password" id="password"
+                   minlength="8" required
+                   autocomplete="new-password"
+                   placeholder="At least 8 characters">
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword"
+                   minlength="8" required
+                   autocomplete="new-password"
+                   placeholder="Enter your password again">
+
+            <button type="submit">Register</button>
+
+            <div id="registerMessage"
+                 class="auth-message"
+                 role="status"></div>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account?
+            <a href="login.html">Login here</a>
+        </div>
+
+        <a href="index.html" class="back-home">← Back to Home</a>
+    </div>
+
+    <script>
+        const registerForm = document.getElementById("registerForm");
+        const registerMessage = document.getElementById("registerMessage");
+
+        registerForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const fullName = document.getElementById("fullName")
+                .value.trim();
+
+            const email = document.getElementById("email")
+                .value.trim().toLowerCase();
+
+            const password = document.getElementById("password").value;
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            if (password.length < 8) {
+                showMessage("Password must contain at least 8 characters.");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage("Passwords do not match.");
+                return;
+            }
+
+            /*
+              Demo-only account registration.
+              This intentionally does not store the password.
+              A real application needs backend authentication.
+            */
+
+            try {
+                const existingUsers = JSON.parse(
+                    localStorage.getItem("cascadeDemoUsers") || "[]"
+                );
+
+                if (!Array.isArray(existingUsers)) {
+                    showMessage("Stored account data is invalid.");
+                    return;
+                }
+
+                const alreadyExists = existingUsers.some(function(user) {
+                    return user.email === email;
+                });
+
+                if (alreadyExists) {
+                    showMessage(
+                        "An account with this email already exists. Please log in."
+                    );
+                    return;
+                }
+
+                existingUsers.push({
+                    fullName: fullName,
+                    email: email
+                });
+
+                localStorage.setItem(
+                    "cascadeDemoUsers",
+                    JSON.stringify(existingUsers)
+                );
+
+                localStorage.setItem(
+                    "cascadeDemoCurrentUser",
+                    JSON.stringify({
+                        fullName: fullName,
+                        email: email
+                    })
+                );
+
+                showMessage(
+                    "Demo registration successful! Open the login page to continue."
+                );
+
+                registerForm.reset();
+
+            } catch (error) {
+                showMessage(
+                    "Unable to save your demo account. Check browser storage."
+                );
+            }
+        });
+
+        function showMessage(message) {
+            registerMessage.textContent = message;
+            registerMessage.style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

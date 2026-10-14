@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cascade Allocation | Cascade Community</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .allocation-container {
+            max-width: 1150px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 34px;
+            color: #183f34;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #65766d;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 22px;
+            border: 1px solid #e2eae5;
+            border-radius: 12px;
+        }
+
+        .info-card h3 {
+            color: #65766d;
+            font-size: 14px;
+        }
+
+        .info-card p {
+            font-size: 27px;
+            font-weight: bold;
+            color: #16876b;
+            margin-top: 8px;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 14px;
+            border: 1px solid #e2eae5;
+        }
+
+        .panel h2 {
+            margin-bottom: 18px;
+            color: #183f34;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #e8eeea;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background: #eff8f3;
+            color: #315b49;
+        }
+
+        .status {
+            display: inline-block;
+            background: #e5f6ed;
+            color: #126344;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .allocation-controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .allocation-controls button {
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .result-box {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .result-summary {
+            background: #eff8f3;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .result-summary h3 {
+            color: #126344;
+            margin-bottom: 8px;
+        }
+
+        .chain-card {
+            padding: 18px;
+            border: 1px solid #dce9e1;
+            border-radius: 10px;
+            margin-bottom: 14px;
+        }
+
+        .chain-card h3 {
+            color: #16876b;
+            margin-bottom: 8px;
+        }
+
+        .chain-card p {
+            color: #53685d;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .warning-box {
+            background: #fff7e6;
+            color: #825b12;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .secondary-action {
+            background: white;
+            color: #16876b;
+            border: 1px solid #16876b !important;
+            padding: 12px 18px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 700px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel {
+                overflow-x: auto;
+                padding: 16px;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="index.html" class="logo">
+        Cascade<span>Community</span>
+    </a>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="share-resource.html">Share Resource</a>
+        <a href="request-resource.html">Request Resource</a>
+        <a href="cascade-allocation.html">Cascade Allocation</a>
+    </nav>
+
+    <div class="nav-buttons">
+        <a href="login.html" class="login-btn">Login</a>
+        <a href="register.html" class="register-btn">Get Started</a>
+    </div>
+</header>
+
+<main class="allocation-container">
+
+    <div class="page-heading">
+        <p class="tagline">INTELLIGENT RESOURCE DISTRIBUTION</p>
+
+        <h1>Cascade Allocation Engine</h1>
+
+        <p>
+            Explore compatible allocation combinations, compare direct
+            matching with multi-step allocation, and identify remaining
+            community needs.
+        </p>
+    </div>
+
+    <section class="info-grid">
+
+        <div class="info-card">
+            <h3>Available Resource Units</h3>
+            <p id="resourceCount">0</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Pending Request Units</h3>
+            <p id="requestCount">0</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Valid Allocation Groups</h3>
+            <p id="allocationCount">0</p>
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>1. Available Resources</h2>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Resource</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+
+            <tbody id="resourcesTable"></tbody>
+        </table>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>2. Unmet Community Needs</h2>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Requested Resource</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Quantity</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+
+            <tbody id="requestsTable"></tbody>
+        </table>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>3. Run Allocation Analysis</h2>
+
+        <p style="color:#65766d; margin-bottom:20px;">
+            Run the demonstration with sample data or use the resources
+            and requests saved in this browser.
+        </p>
+
+        <div class="allocation-controls">
+
+            <button class="primary-btn" onclick="runAllocation(true)">
+                Run Sample Demonstration
+            </button>
+
+            <button class="secondary-action" onclick="runAllocation(false)">
+                Analyze My Saved Data
+            </button>
+
+        </div>
+
+        <div id="resultBox" class="result-box" aria-live="polite"></div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 Cascade Community | Smarter Sharing for Stronger Communities</p>
+</footer>
+
+<script>
+    const sampleResources = [
+        {
+            id: "R1",
+            name: "Laptop",
+            category: "Electronics",
+            location: "Bidar",
+            quantity: 1,
+            sharingType: "lend",
+            availableFrom: "2026-10-01",
+            availableUntil: "2026-12-31"
+        },
+        {
+            id: "R2",
+            name: "Wheelchair",
+            category: "Accessibility",
+            location: "Bidar",
+            quantity: 1,
+            sharingType: "lend",
+            availableFrom: "2026-10-01",
+            availableUntil: "2026-12-31"
+        },
+        {
+            id: "R3",
+            name: "School Bag",
+            category: "Education",
+            location: "Bidar",
+            quantity: 2,
+            sharingType: "donate",
+            availableFrom: "2026-10-01",
+            availableUntil: ""
+        }
+    ];
+
+    const sampleRequests = [
+        {
+            id: "N1",
+            name: "Laptop",
+            category: "Electronics",
+            location: "Bidar",
+            quantity: 1,
+            priority: "High",
+            duration: "Temporary",
+            neededBy: "2026-10-20",
+            condition: "Any"
+        },
+        {
+            id: "N2",
+            name: "Wheelchair",
+            category: "Accessibility",
+            location: "Bidar",
+            quantity: 1,
+            priority: "High",
+            duration: "Temporary",
+            neededBy: "2026-10-20",
+            condition: "Any"
+        },
+        {
+            id: "N3",
+            name: "School Bag",
+            category: "Education",
+            location: "Bidar",
+            quantity: 1,
+            priority: "Medium",
+            duration: "Permanent",
+            neededBy: "2026-10-20",
+            condition: "Any"
+        },
+        {
+            id: "N4",
+            name: "Tablet",
+            category: "Electronics",
+            location: "Bidar",
+            quantity: 1,
+            priority: "Medium",
+            duration: "Temporary",
+            neededBy: "2026-10-20",
+            condition: "Any"
+        }
+    ];
+
+    let displayedResources = [];
+    let displayedRequests = [];
+
+    function getSavedData() {
+        return {
+            resources: JSON.parse(
+                localStorage.getItem("cascadeResources") || "[]"
+            ),
+            requests: JSON.parse(
+                localStorage.getItem("cascadeRequests") || "[]"
+            )
+        };
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+
+    function renderTables() {
+        document.getElementById("resourceCount").textContent =
+            displayedResources.reduce(
+                (total, resource) => total + Number(resource.quantity || 0), 0
+            );
+
+        document.getElementById("requestCount").textContent =
+            displayedRequests.reduce(
+                (total, request) => total + Number(request.quantity || 0), 0
+            );
+
+        document.getElementById("resourcesTable").innerHTML =
+            displayedResources.length
+                ? displayedResources.map(resource => `
+                    <tr>
+                        <td>${escapeHTML(resource.name)}</td>
+                        <td>${escapeHTML(resource.category)}</td>
+                        <td>${escapeHTML(resource.location)}</td>
+                        <td>${Number(resource.quantity || 0)}</td>
+                        <td>${escapeHTML(resource.sharingType || "Not specified")}</td>
+                    </tr>
+                `).join("")
+                : `<tr><td colspan="5">No resources available. Add one using Share Resource.</td></tr>`;
+
+        document.getElementById("requestsTable").innerHTML =
+            displayedRequests.length
+                ? displayedRequests.map(request => `
+                    <tr>
+                        <td>${escapeHTML(request.name)}</td>
+                        <td>${escapeHTML(request.category)}</td>
+                        <td>${escapeHTML(request.location)}</td>
+                        <td>${Number(request.quantity || 0)}</td>
+                        <td>${escapeHTML(request.priority || "Medium")}</td>
+                    </tr>
+                `).join("")
+                : `<tr><td colspan="5">No requests available. Add one using Request Resource.</td></tr>`;
+    }
+
+    function isCompatible(resource, request) {
+        const resourceName = String(resource.name || "").trim().toLowerCase();
+        const requestName = String(request.name || "").trim().toLowerCase();
+
+        if (!resourceName || resourceName !== requestName) {
+            return false;
+        }
+
+        if (resource.location && request.location) {
+            if (
+                resource.location.trim().toLowerCase() !==
+                request.location.trim().toLowerCase()
+            ) {
+                return false;
+            }
+        }
+
+        if (
+            request.duration === "Permanent" &&
+            resource.sharingType === "lend"
+        ) {
+            return false;
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (resource.availableFrom) {
+            const start = new Date(resource.availableFrom + "T00:00:00");
+
+            if (start > today) {
+                return false;
+            }
+        }
+
+        if (
+            request.neededBy &&
+            resource.availableUntil &&
+            request.neededBy > resource.availableUntil
+        ) {
+            return false;
+        }
+
+        return Number(resource.quantity || 0) > 0 &&
+            Number(request.quantity || 0) > 0;
+    }
+
+    function calculateDirectMatches(resources, requests) {
+        const remaining = resources.map(resource => ({
+            ...resource,
+            remaining: Number(resource.quantity || 0)
+        }));
+
+        const matches = [];
+        const unmatched = [];
+
+        for (const request of requests) {
+            let need = Number(request.quantity || 0);
+
+            for (const resource of remaining) {
+                if (need <= 0) break;
+
+                if (!isCompatible(resource, request)) continue;
+
+                const allocated = Math.min(resource.remaining, need);
+
+                if (allocated > 0) {
+                    matches.push({
+                        resource: resource.name,
+                        request: request.name,
+                        quantity: allocated,
+                        requestId: request.id
+                    });
+
+                    resource.remaining -= allocated;
+                    need -= allocated;
+                }
+            }
+
+            if (need > 0) {
+                unmatched.push({
+                    ...request,
+                    quantity: need
+                });
+            }
+        }
+
+        return { matches, unmatched };
+    }
+
+    function runAllocation(useSample) {
+        const saved = getSavedData();
+
+        displayedResources = useSample
+            ? sampleResources.map(item => ({ ...item }))
+            : saved.resources.map(item => ({ ...item }));
+
+        displayedRequests = useSample
+            ? sampleRequests.map(item => ({ ...item }))
+            : saved.requests.map(item => ({ ...item }));
+
+        renderTables();
+
+        const direct = calculateDirectMatches(
+            displayedResources,
+            displayedRequests
+        );
+
+        const satisfiedUnits = direct.matches.reduce(
+            (total, match) => total + match.quantity, 0
+        );
+
+        const requestedUnits = displayedRequests.reduce(
+            (total, request) => total + Number(request.quantity || 0), 0
+        );
+
+        const resourceUnits = displayedResources.reduce(
+            (total, resource) => total + Number(resource.quantity || 0), 0
+        );
+
+        document.getElementById("allocationCount").textContent =
+            direct.matches.length;
+
+        const unmatchedHTML = direct.unmatched.length
+            ? direct.unmatched.map(request => `
+                <li>
+                    ${escapeHTML(request.name)}:
+                    ${request.quantity} unit(s) still unmet
+                </li>
+            `).join("")
+            : "<li>All requested units were matched in this analysis.</li>";
+
+        const matchesHTML = direct.matches.length
+            ? direct.matches.map(match => `
+                <div class="chain-card">
+                    <h3>${escapeHTML(match.resource)} → ${escapeHTML(match.request)}</h3>
+                    <p>Allocated quantity: ${match.quantity}</p>
+                    <p>Strategy: Direct matching</p>
+                </div>
+            `).join("")
+            : "<p>No compatible direct matches were found.</p>";
+
+        document.getElementById("resultBox").innerHTML = `
+            <div class="result-summary">
+                <h3>Analysis Completed</h3>
+                <p>Available resource units: ${resourceUnits}</p>
+                <p>Total requested units: ${requestedUnits}</p>
+                <p>Units allocated by direct matching: ${satisfiedUnits}</p>
+                <p>Unmatched request units: ${requestedUnits - satisfiedUnits}</p>
+            </div>
+
+            <h2>Direct Allocation Results</h2>
+
+            ${matchesHTML}
+
+            <div class="warning-box">
+                <strong>Remaining unmet needs</strong>
+                <ul>${unmatchedHTML}</ul>
+            </div>
+
+            <p style="margin-top:18px;color:#65766d;font-size:14px;">
+                This version implements constrained direct matching only.
+                Multi-step cascade-chain exploration is the next algorithm
+                to implement; no cascade improvement is claimed yet.
+            </p>
+        `;
+
+       
+    localStorage.setItem("cascadeLatestReport", JSON.stringify({
+    totalResources: resourceUnits,
+    totalRequests: requestedUnits,
+    allocatedUnits: satisfiedUnits,
+    matches: direct.matches,
+    unmatched: direct.unmatched
+}));
+ document.getElementById("resultBox").style.display = "block";
+    }
+
+    // Load the user's saved browser data when the page opens.
+    const saved = getSavedData();
+
+    displayedResources = saved.resources;
+    displayedRequests = saved.requests;
+
+    renderTables();
+</script>
+
+</body>
+</html>

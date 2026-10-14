@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Impact | Cascade Community</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .impact-hero {
+            text-align: center;
+            padding: 55px 20px;
+            background: #e8f5e9;
+        }
+
+        .impact-hero h1 {
+            color: #176b3a;
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .impact-hero p {
+            color: #52665a;
+            font-size: 17px;
+        }
+
+        .impact-container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            margin-bottom: 35px;
+        }
+
+        .impact-card {
+            background: white;
+            border-radius: 14px;
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #249653;
+        }
+
+        .impact-card h2 {
+            color: #198447;
+            font-size: 34px;
+            margin: 12px 0;
+        }
+
+        .impact-card p {
+            color: #52665a;
+            margin: 0;
+        }
+
+        .impact-icon {
+            font-size: 34px;
+        }
+
+        .impact-section {
+            background: #f7fbf7;
+            padding: 28px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+        }
+
+        .impact-section h2 {
+            color: #176b3a;
+            margin-top: 0;
+        }
+
+        .progress-item {
+            margin: 22px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #344b3b;
+        }
+
+        .progress-track {
+            height: 12px;
+            background: #dce8df;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: #249653;
+            border-radius: 20px;
+            transition: width 0.5s;
+        }
+
+        .impact-note {
+            color: #65756b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .impact-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .impact-button {
+            display: inline-block;
+            background: #198447;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .impact-button:hover {
+            background: #126634;
+        }
+
+        @media (max-width: 600px) {
+            .impact-hero h1 {
+                font-size: 28px;
+            }
+
+            .impact-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Cascade Community</div>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="share-resource.html">Share Resource</a>
+            <a href="request-resource.html">Request Resource</a>
+            <a href="cascade-allocation.html">Cascade Allocation</a>
+            <a href="impact.html">Community Impact</a>
+        </div>
+    </nav>
+
+    <section class="impact-hero">
+        <h1>Our Community Impact 🌱</h1>
+        <p>
+            See how sharing available resources can help meet
+            community needs and reduce waste.
+        </p>
+    </section>
+
+    <main class="impact-container">
+
+        <div class="impact-grid">
+
+            <div class="impact-card">
+                <div class="impact-icon">📦</div>
+                <h2 id="resourceCount">0</h2>
+                <p>Resource Units Offered</p>
+            </div>
+
+            <div class="impact-card">
+                <div class="impact-icon">🙋</div>
+                <h2 id="requestCount">0</h2>
+                <p>Resource Units Requested</p>
+            </div>
+
+            <div class="impact-card">
+                <div class="impact-icon">🤝</div>
+                <h2 id="allocatedCount">0</h2>
+                <p>Units Allocated in Latest Analysis</p>
+            </div>
+
+            <div class="impact-card">
+                <div class="impact-icon">⏳</div>
+                <h2 id="unmetCount">0</h2>
+                <p>Units Still Unmet</p>
+            </div>
+
+        </div>
+
+        <section class="impact-section">
+            <h2>📊 Resource Allocation Overview</h2>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Request fulfilment in latest analysis</span>
+                    <strong id="fulfilmentPercent">0%</strong>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="fulfilmentBar"></div>
+                </div>
+            </div>
+
+            <p class="impact-note" id="analysisMessage">
+                Run an allocation analysis to see the results here.
+            </p>
+        </section>
+
+        <section class="impact-section">
+            <h2>🌍 Why Community Resource Sharing Matters</h2>
+
+            <p>
+                <strong>Better resource use:</strong>
+                Useful items can be shared instead of remaining unused.
+            </p>
+
+            <p>
+                <strong>Support for people in need:</strong>
+                Community members can request items they cannot easily obtain.
+            </p>
+
+            <p>
+                <strong>Fairer allocation:</strong>
+                Allocation rules can help identify which requests can be
+                satisfied and which needs remain unmet.
+            </p>
+
+            <p>
+                <strong>Cascade allocation research:</strong>
+                Our planned extension will explore whether a sequence of
+                compatible resource exchanges can satisfy needs that
+                direct matching cannot satisfy.
+            </p>
+        </section>
+
+        <section class="impact-section">
+            <h2>🚀 Continue Using Cascade Community</h2>
+
+            <p>
+                Share a resource, submit a request, or analyze your
+                saved data to update the impact summary.
+            </p>
+
+            <div class="impact-actions">
+                <a href="share-resource.html" class="impact-button">
+                    Share a Resource
+                </a>
+
+                <a href="request-resource.html" class="impact-button">
+                    Request a Resource
+                </a>
+
+                <a href="cascade-allocation.html" class="impact-button">
+                    Run Allocation Analysis
+                </a>
+            </div>
+        </section>
+
+        <p class="impact-note">
+            Note: These figures are calculated from data saved in this
+            browser. Allocation figures depend on the latest saved analysis.
+            They do not represent confirmed real-world exchanges.
+        </p>
+
+    </main>
+
+    <script>
+        function getSavedArray(key) {
+            try {
+                const data = JSON.parse(localStorage.getItem(key));
+
+                return Array.isArray(data) ? data : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function getQuantity(item) {
+            const quantity = Number(item.quantity);
+
+            return Number.isFinite(quantity) && quantity > 0
+                ? quantity
+                : 0;
+        }
+
+        function calculateUnits(items) {
+            return items.reduce(function(total, item) {
+                return total + getQuantity(item);
+            }, 0);
+        }
+
+        function loadImpact() {
+            const resources = getSavedArray("cascadeResources");
+            const requests = getSavedArray("cascadeRequests");
+
+            let report = null;
+
+            try {
+                report = JSON.parse(
+                    localStorage.getItem("cascadeLatestReport")
+                );
+            } catch (error) {
+                report = null;
+            }
+
+            const resourceUnits = calculateUnits(resources);
+            const requestUnits = calculateUnits(requests);
+
+            document.getElementById("resourceCount").textContent =
+                resourceUnits;
+
+            document.getElementById("requestCount").textContent =
+                requestUnits;
+
+            if (!report || !Array.isArray(report.unmatched)) {
+                document.getElementById("allocatedCount").textContent = "—";
+                document.getElementById("unmetCount").textContent = "—";
+                document.getElementById("fulfilmentPercent").textContent = "—";
+                document.getElementById("fulfilmentBar").style.width = "0%";
+
+                document.getElementById("analysisMessage").textContent =
+                    "No saved allocation report was found. Open Cascade Allocation and run an analysis first.";
+
+                return;
+            }
+
+            const allocated = Number(report.allocatedUnits) || 0;
+
+            const unmet = report.unmatched.reduce(function(total, item) {
+                return total + getQuantity(item);
+            }, 0);
+
+            const analysedRequests =
+                Number(report.totalRequests) || 0;
+
+            const percentage = analysedRequests > 0
+                ? Math.round((allocated / analysedRequests) * 100)
+                : 0;
+
+            document.getElementById("allocatedCount").textContent =
+                allocated;
+
+            document.getElementById("unmetCount").textContent =
+                unmet;
+
+            document.getElementById("fulfilmentPercent").textContent =
+                percentage + "%";
+
+            document.getElementById("fulfilmentBar").style.width =
+                Math.min(percentage, 100) + "%";
+
+            document.getElementById("analysisMessage").textContent =
+                "Latest analysis: " + allocated +
+                " resource units allocated out of " +
+                analysedRequests + " requested units.";
+        }
+
+        loadImpact();
+    </script>
+
+</body>
+</html>

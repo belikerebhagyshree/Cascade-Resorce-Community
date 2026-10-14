@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Request a Resource | Cascade Community</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .request-container {
+            max-width: 760px;
+            margin: 45px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .request-container h1 {
+            margin-bottom: 10px;
+            color: #183f34;
+        }
+
+        .request-description {
+            color: #65766d;
+            margin-bottom: 28px;
+        }
+
+        .request-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d7e2dc;
+            border-radius: 8px;
+            font: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #16876b;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .submit-btn {
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .success-message {
+            display: none;
+            padding: 15px;
+            margin-top: 20px;
+            background: #e5f6ed;
+            color: #126344;
+            border-radius: 8px;
+        }
+
+        .matching-note {
+            margin-top: 22px;
+            padding: 16px;
+            background: #eff8f3;
+            border-left: 4px solid #16876b;
+            border-radius: 6px;
+            color: #385b4c;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .request-container {
+                margin: 25px 15px;
+                padding: 22px;
+            }
+
+            .request-form {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="index.html" class="logo">
+        Cascade<span>Community</span>
+    </a>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="share-resource.html">Share Resource</a>
+        <a href="request-resource.html">Request Resource</a>
+        <a href="cascade-allocation.html">Cascade Allocation</a>
+    </nav>
+
+    <div class="nav-buttons">
+        <a href="login.html" class="login-btn">Login</a>
+        <a href="register.html" class="register-btn">Get Started</a>
+    </div>
+
+</header>
+
+<main class="request-container">
+
+    <p class="tagline">LET THE COMMUNITY HELP</p>
+
+    <h1>Request a Resource</h1>
+
+    <p class="request-description">
+        Tell us what you need. Cascade Community can use your request
+        to explore compatible resources and possible allocation options.
+    </p>
+
+    <form id="requestForm" class="request-form">
+
+        <div class="form-group">
+            <label for="resourceName">Resource Needed *</label>
+
+            <input
+                type="text"
+                id="resourceName"
+                placeholder="e.g. Laptop, Wheelchair"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category *</label>
+
+            <select id="category" required>
+                <option value="">Select category</option>
+                <option>Electronics</option>
+                <option>Education</option>
+                <option>Accessibility</option>
+                <option>Household</option>
+                <option>Clothing</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity Needed *</label>
+
+            <input
+                type="number"
+                id="quantity"
+                min="1"
+                value="1"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="priority">Request Priority *</label>
+
+            <select id="priority" required>
+                <option value="">Select priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Preferred Location *</label>
+
+            <input
+                type="text"
+                id="location"
+                placeholder="e.g. Bidar, Karnataka"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="neededBy">Needed By *</label>
+
+            <input
+                type="date"
+                id="neededBy"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Required Duration *</label>
+
+            <select id="duration" required>
+                <option value="">Select duration</option>
+                <option value="Temporary">Temporary borrowing</option>
+                <option value="Permanent">Permanent donation</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="condition">Acceptable Condition</label>
+
+            <select id="condition">
+                <option value="Any">Any usable condition</option>
+                <option value="New">New</option>
+                <option value="Good">Good</option>
+                <option value="Usable">Usable</option>
+            </select>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="description">Additional Details</label>
+
+            <textarea
+                id="description"
+                rows="4"
+                placeholder="Explain your requirements or any important constraints..."
+            ></textarea>
+        </div>
+
+        <button
+            type="submit"
+            class="primary-btn submit-btn full-width"
+        >
+            Submit Resource Request
+        </button>
+
+    </form>
+
+    <div
+        id="successMessage"
+        class="success-message"
+        role="status"
+    ></div>
+
+    <div class="matching-note">
+        <strong>Why this information matters:</strong>
+        Your requested category, location, quantity, duration,
+        priority and condition can help the allocation system
+        evaluate possible resource matches.
+    </div>
+
+</main>
+
+<footer>
+    <p>© 2026 Cascade Community | Smarter Sharing for Stronger Communities</p>
+</footer>
+
+<script>
+    const requestForm = document.getElementById("requestForm");
+    const neededBy = document.getElementById("neededBy");
+
+    const today = new Date();
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    neededBy.min = localDate;
+
+    requestForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (neededBy.value < localDate) {
+            alert("Please select today or a future date.");
+            return;
+        }
+
+        const request = {
+            id: Date.now(),
+            name: document.getElementById("resourceName").value.trim(),
+            category: document.getElementById("category").value,
+            quantity: Number(document.getElementById("quantity").value),
+            priority: document.getElementById("priority").value,
+            location: document.getElementById("location").value.trim(),
+            neededBy: neededBy.value,
+            duration: document.getElementById("duration").value,
+            condition: document.getElementById("condition").value,
+            description: document.getElementById("description").value.trim(),
+            status: "Pending"
+        };
+
+        const requests = JSON.parse(
+            localStorage.getItem("cascadeRequests") || "[]"
+        );
+
+        requests.push(request);
+
+        localStorage.setItem(
+            "cascadeRequests",
+            JSON.stringify(requests)
+        );
+
+        const message = document.getElementById("successMessage");
+
+        message.textContent =
+            "Your resource request has been saved in this browser demo. " +
+            "It is ready to be used when we connect the allocation system.";
+
+        message.style.display = "block";
+
+        requestForm.reset();
+        neededBy.min = localDate;
+    });
+</script>
+
+</body>
+</html>

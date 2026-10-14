@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share a Resource | Cascade Community</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .form-container {
+            max-width: 750px;
+            margin: 45px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-container h1 {
+            color: #183f34;
+            margin-bottom: 10px;
+        }
+
+        .form-description {
+            color: #65766d;
+            margin-bottom: 25px;
+        }
+
+        .resource-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d7e2dc;
+            border-radius: 8px;
+            font: inherit;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #16876b;
+        }
+
+        .submit-btn {
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .success-message {
+            display: none;
+            background: #e5f6ed;
+            color: #126344;
+            padding: 14px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                margin: 25px 15px;
+                padding: 22px;
+            }
+
+            .resource-form {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="index.html" class="logo">
+        Cascade<span>Community</span>
+    </a>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="share-resource.html">Share Resource</a>
+        <a href="request-resource.html">Request Resource</a>
+        <a href="cascade-allocation.html">Cascade Allocation</a>
+    </nav>
+
+    <div class="nav-buttons">
+        <a href="login.html" class="login-btn">Login</a>
+        <a href="register.html" class="register-btn">Get Started</a>
+    </div>
+</header>
+
+<main class="form-container">
+
+    <p class="tagline">MAKE A DIFFERENCE</p>
+
+    <h1>Share a Resource</h1>
+
+    <p class="form-description">
+        Have something useful that someone else could use?
+        Add it to the community resource pool.
+    </p>
+
+    <form id="resourceForm" class="resource-form">
+
+        <div class="form-group">
+            <label for="resourceName">Resource Name *</label>
+            <input
+                type="text"
+                id="resourceName"
+                placeholder="e.g. Laptop, Wheelchair"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category *</label>
+            <select id="category" required>
+                <option value="">Select category</option>
+                <option>Electronics</option>
+                <option>Education</option>
+                <option>Accessibility</option>
+                <option>Household</option>
+                <option>Clothing</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="condition">Resource Condition *</label>
+            <select id="condition" required>
+                <option value="">Select condition</option>
+                <option>New</option>
+                <option>Good</option>
+                <option>Usable</option>
+                <option>Needs Repair</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="sharingType">Sharing Type *</label>
+            <select id="sharingType" required>
+                <option value="">Select type</option>
+                <option value="lend">Lend temporarily</option>
+                <option value="donate">Donate permanently</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity Available *</label>
+            <input
+                type="number"
+                id="quantity"
+                min="1"
+                value="1"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="location">Community Location *</label>
+            <input
+                type="text"
+                id="location"
+                placeholder="e.g. Bidar, Karnataka"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="availableFrom">Available From *</label>
+            <input type="date" id="availableFrom" required>
+        </div>
+
+        <div class="form-group">
+            <label for="availableUntil">Available Until</label>
+            <input type="date" id="availableUntil">
+        </div>
+
+        <div class="form-group full-width">
+            <label for="description">Description</label>
+            <textarea
+                id="description"
+                rows="4"
+                placeholder="Describe the resource and any sharing conditions..."
+            ></textarea>
+        </div>
+
+        <button type="submit" class="primary-btn submit-btn full-width">
+            Add Resource
+        </button>
+
+    </form>
+
+    <div id="successMessage" class="success-message" role="status">
+        Resource details added to this demo session successfully!
+    </div>
+
+</main>
+
+<footer>
+    <p>© 2026 Cascade Community | Share More, Help More</p>
+</footer>
+
+<script>
+    const resourceForm = document.getElementById("resourceForm");
+    const availableFrom = document.getElementById("availableFrom");
+    const availableUntil = document.getElementById("availableUntil");
+
+    const today = new Date();
+    const localDate = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    availableFrom.min = localDate;
+    availableFrom.value = localDate;
+    availableUntil.min = localDate;
+
+    availableFrom.addEventListener("change", function () {
+        availableUntil.min = availableFrom.value;
+
+        if (
+            availableUntil.value &&
+            availableUntil.value < availableFrom.value
+        ) {
+            availableUntil.value = "";
+        }
+    });
+
+    resourceForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (
+            availableUntil.value &&
+            availableUntil.value < availableFrom.value
+        ) {
+            alert("Available Until must not be earlier than Available From.");
+            return;
+        }
+
+        const resource = {
+            id: Date.now(),
+            name: document.getElementById("resourceName").value.trim(),
+            category: document.getElementById("category").value,
+            condition: document.getElementById("condition").value,
+            sharingType: document.getElementById("sharingType").value,
+            quantity: Number(document.getElementById("quantity").value),
+            location: document.getElementById("location").value.trim(),
+            availableFrom: availableFrom.value,
+            availableUntil: availableUntil.value,
+            description: document.getElementById("description").value.trim()
+        };
+
+        const resources = JSON.parse(
+            localStorage.getItem("cascadeResources") || "[]"
+        );
+
+        resources.push(resource);
+
+        localStorage.setItem(
+            "cascadeResources",
+            JSON.stringify(resources)
+        );
+
+        document.getElementById("successMessage").style.display = "block";
+
+        resourceForm.reset();
+        availableFrom.value = localDate;
+        availableUntil.min = localDate;
+        availableFrom.min = localDate;
+    });
+</script>
+
+</body>
+</html>

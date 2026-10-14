@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Cascade Community</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background: #f1f8f2;
+        }
+
+        .login-container {
+            max-width: 430px;
+            margin: 60px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .login-container h1 {
+            text-align: center;
+            color: #176b3a;
+        }
+
+        .login-container .subtitle {
+            text-align: center;
+            color: #65756b;
+            margin-bottom: 25px;
+        }
+
+        .login-form label {
+            display: block;
+            margin: 17px 0 7px;
+            font-weight: 600;
+        }
+
+        .login-form input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ccd8ce;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .login-form button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #198447;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background: #126634;
+        }
+
+        .login-message {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #e8f5e9;
+            color: #176b3a;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .login-links {
+            text-align: center;
+            margin-top: 22px;
+            line-height: 2;
+        }
+
+        .login-links a {
+            color: #198447;
+        }
+
+        .demo-notice {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #fff7df;
+            color: #775a12;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <h1>Welcome Back 🌱</h1>
+
+        <p class="subtitle">
+            Sign in to continue to Cascade Community.
+        </p>
+
+        <form id="loginForm" class="login-form">
+
+            <label for="email">Registered Email</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your registered email"
+                autocomplete="email"
+                required
+            >
+
+            <label for="password">Password</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button type="submit">Login</button>
+
+            <div
+                id="loginMessage"
+                class="login-message"
+                role="status"
+            ></div>
+
+        </form>
+
+        <div class="login-links">
+            Don't have an account?
+            <a href="register.html">Register here</a>
+            <br>
+            <a href="index.html">← Back to Home</a>
+        </div>
+
+        <div class="demo-notice">
+            <strong>College project demonstration:</strong>
+            This prototype checks the registered email only.
+            It does not verify the password and must not be used
+            for real accounts.
+        </div>
+
+    </main>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const loginMessage = document.getElementById("loginMessage");
+
+        loginForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email")
+                .value.trim().toLowerCase();
+
+            const password = document.getElementById("password").value;
+
+            if (!password) {
+                showMessage("Please enter your password.");
+                return;
+            }
+
+            try {
+                const users = JSON.parse(
+                    localStorage.getItem("cascadeDemoUsers") || "[]"
+                );
+
+                if (!Array.isArray(users)) {
+                    showMessage("Account data is invalid. Please register again.");
+                    return;
+                }
+
+                const matchedUser = users.find(function(user) {
+                    return user.email === email;
+                });
+
+                if (!matchedUser) {
+                    showMessage(
+                        "No demo account found with this email. Please register first."
+                    );
+                    return;
+                }
+
+                localStorage.setItem(
+                    "cascadeDemoCurrentUser",
+                    JSON.stringify({
+                        fullName: matchedUser.fullName,
+                        email: matchedUser.email
+                    })
+                );
+
+                showMessage(
+                    "Demo email check successful! Opening your dashboard..."
+                );
+
+                setTimeout(function() {
+                    window.location.href = "dashboard.html";
+                }, 1000);
+
+            } catch (error) {
+                showMessage(
+                    "Unable to read account information. Please register again."
+                );
+            }
+        });
+
+        function showMessage(message) {
+            loginMessage.textContent = message;
+            loginMessage.style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
